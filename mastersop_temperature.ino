@@ -1,6 +1,9 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <LiquidCrystal.h>
 
+
+//-------------------------- Termometr init------------------------------------
 // Data wire is plugged into port 2 on the Arduino
 #define ONE_WIRE_BUS 9
 
@@ -10,21 +13,26 @@ OneWire oneWire(ONE_WIRE_BUS);
 // Pass our oneWire reference to Dallas Temperature.
 DallasTemperature sensors(&oneWire);
 
-// set pin relay in Arduino
-int relay_pin = A3;
-float temp_vol;
+//--------------------------------------------------------------------------------
 
-//set delay between on/off relay 60 seconds
-int temp_delta = 3; 
+//-----------------------------LCD init-------------------------------------------
+// initialize the library by associating any needed LCD interface pin
+// with the arduino pin number it is connected to
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+//---------------------------------------------------------------------------------
+
+
+int relay_pin = A3; // set pin relay in Arduino
+float temp_vol; // 
+
+int temp_delta = 3; //set delay between on/off relay 60 seconds
 int time_delta = temp_delta;
 
-// set the minimum temperature
-float temp_min = 5;
+float temp_min = 5; // set the minimum temperature
 
-// set menu pin
-int ledPin = 10;
-int menuButtonInt = 0; // pin2
-bool menuScreen = false;
+int menuButton = 8; // pin8 menu button
 
 void setup(void)
 {
@@ -37,17 +45,18 @@ void setup(void)
   pinMode(relay_pin, OUTPUT);
 
   // menu button interrupt
-  attachInterrupt(menuButtonInt, Menu, RISING);
-  pinMode (ledPin, OUTPUT); 
+  pinMode(menuButton, INPUT);
+
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  lcd.print("Current temp: ");
+  lcd.setCursor(5, 1);
+  lcd.print("C");
+  
+  
 }
 
-void Menu() // screen menu
-{
-    digitalWrite(ledPin, HIGH);
-    Serial.println("Main menu");
-    menuScreen = true;   
-}
-   
+
 void relayControl()
 {
 // call sensors.requestTemperatures() to issue a global temperature
@@ -79,8 +88,9 @@ void CurTemp()
 {
   if (temp_vol != -127 && temp_vol != 85) // exclusion of incorrect values
   {
-    Serial.print("Temperature for the device 1 (index 0) is: ");
-    Serial.println(temp_vol);
+    lcd.setCursor(0, 1);
+    lcd.print(temp_vol);
+    
   }
   
 }
@@ -89,17 +99,24 @@ void CurTemp()
 void loop(void)
 {
   
+  
   relayControl(); 
   CurTemp();
   
   // dalay menu
-  if (menuScreen == true)
+  if (digitalRead(menuButton) == HIGH)
   {
+    lcd.clear();
+    lcd.print("Main menu");
     delay(2000);
-    digitalWrite(ledPin, LOW);
-    menuScreen = false;
-      
+    lcd.clear();
+    lcd.print("Current temp: ");
+    lcd.setCursor(5, 1);
+    lcd.print("C");
+    CurTemp();
+    
   }
+  
    
 }
 
