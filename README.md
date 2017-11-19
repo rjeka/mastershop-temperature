@@ -5,12 +5,12 @@ Arduino temperature in master shop project
 Схема включает реле 220 вольт, к которому будет подключен обогреватель.
 В дальнейшем планируется подключение солнечного коллектора, со вторым термометром внутри коллектора. Запуск принудительного забора воздуха с коллектора, по сигналу с солнечной батареи. 
 
-Используемые компоненты:
-Контроллер - Arduino mini
-Термометр аналоговый - DS18B20
+Используемые компоненты:  
+Контроллер - Arduino mini  
+Термометр аналоговый - DS18B20  
 
 
-Файлы:
-mastersop_temperature.ino - скетч для Arduino
-mastersop_temperature.ino - схема проекта, для cстемы атоматизированного проектирования Proteus
-mastersop_temperature.ino.hex - файл прошивки для эммулятора Arduino в Proteus
+Файлы:  
+mastersop_temperature.ino - скетч для Arduino  
+mastersop_temperature.ino - схема проекта, для cстемы атоматизированного проектирования Proteus  
+mastersop_temperature.ino.hex - файл прошивки для эммулятора Arduino в Proteus  
