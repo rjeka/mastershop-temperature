@@ -38,23 +38,16 @@ void setup(void)
 
   // menu button interrupt
   attachInterrupt(menuButtonInt, Menu, RISING);
-  pinMode (ledPin, OUTPUT);
- 
-  
+  pinMode (ledPin, OUTPUT); 
 }
 
 void Menu() // screen menu
 {
-
-
     digitalWrite(ledPin, HIGH);
     Serial.println("Main menu");
-    menuScreen = true;
-    
+    menuScreen = true;   
 }
- 
-  
-
+   
 void relayControl()
 {
 // call sensors.requestTemperatures() to issue a global temperature
