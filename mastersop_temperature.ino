@@ -59,6 +59,7 @@ void setup(void)
   
   
 }
+//--------------------------My functions-----------------------------------------------------
 
 
 void relayControl()
@@ -84,9 +85,7 @@ void relayControl()
     time_delta = temp_delta;
   else
     time_delta--;
-
 }
-
 
 void CurTemp()
 {
@@ -94,9 +93,7 @@ void CurTemp()
   {
     lcd.setCursor(0, 1);
     lcd.print(temp_vol);
-    
   }
-  
 }
 
 void MainScreen()
@@ -107,14 +104,41 @@ void MainScreen()
     lcd.print("C");
 }
 
+
+void tempError()
+{
+  lcd.clear();
+  lcd.print("Error");
+  delay(500);
+  lcd.clear();
+  lcd.print("Set temp.");
+  lcd.setCursor(0, 1);
+  lcd.print(temp_min);
+  lcd.setCursor(7, 1);
+  lcd.print("C");           
+
+}
+
+
+void SetTempScreen()
+{
+  lcd.clear();
+  lcd.print("Set temp.");
+  lcd.setCursor(0, 1);
+  lcd.print(temp_min);
+  lcd.setCursor(7, 1);
+  lcd.print("C");
+}
+
+
+//---------------------------------------Loop-------------------------------------------------------------          
 void loop(void)
 {
   
+  relayControl(); // check temp 
+  CurTemp(); // print temp on LCD
   
-  relayControl(); 
-  CurTemp();
-  
-  // dalay menu
+//------------------------ menu---------------------------------------------------------------
   if (digitalRead(menuButton) == HIGH)
   {
     lcd.clear();
@@ -124,24 +148,56 @@ void loop(void)
     CurTemp();
     
   }
-  else if (digitalRead(plusButton) == HIGH)
+//------------------ push + or - button - set temp--------------------------------------------
+  else if (digitalRead(plusButton) == HIGH || digitalRead(minusButton) == HIGH)
   {
+    //clear main menu
     lcd.clear();
-    lcd.print("Test plus");
-    delay(2000);
+    lcd.print("Set temp.");
+    lcd.setCursor(0, 1);
+    lcd.print(temp_min);
+    lcd.setCursor(7, 1);
+    lcd.print("C");
+    
+    for (int i = 0; i < 30; i++)
+    {
+      delay(100);
+      
+      if (digitalRead(plusButton) == HIGH) // push + button
+      {
+        temp_min++;
+        if (temp_min > 10) // maximum value check (5`C)
+        {
+          tempError();
+          temp_min--;   
+        }
+        SetTempScreen();
+        i--;
+        delay(100);
+      }
+
+      if (digitalRead(minusButton) == HIGH) // push - button
+      {
+         
+        temp_min--;
+        if (temp_min < 5) // minimum value check (5`C)
+        {
+          tempError();
+          temp_min++; 
+        }
+        SetTempScreen();
+        i--;
+      }
+    }
+   
+//----------------- delay, write main screen and exit---------------------------------------
+    delay(500);
     MainScreen();
     CurTemp();
   }
-  else if (digitalRead(minusButton) == HIGH)
-  {
-    lcd.clear();
-    lcd.print("Test minus");
-    delay(2000);
-    MainScreen();
-    CurTemp();
-  }
-  
+}
+//--------------------------------------------------------------------------------------------
   
    
-}
+
 
