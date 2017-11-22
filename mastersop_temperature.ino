@@ -32,7 +32,9 @@ int time_delta = temp_delta;
 
 float temp_min = 5; // set the minimum temperature
 
-int menuButton = 8; // pin8 menu button
+int menuButton =  6; // pin6 menu button
+int minusButton = 7; // pin7 - button
+int plusButton =  8; // pin8 + button
 
 void setup(void)
 {
@@ -44,8 +46,10 @@ void setup(void)
   //220 V relay pin
   pinMode(relay_pin, OUTPUT);
 
-  // menu button interrupt
+  // menu and +\- button interrupt
   pinMode(menuButton, INPUT);
+  pinMode(minusButton, INPUT);
+  pinMode(plusButton, INPUT);
 
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
@@ -59,7 +63,7 @@ void setup(void)
 
 void relayControl()
 {
-// call sensors.requestTemperatures() to issue a global temperature
+  // call sensors.requestTemperatures() to issue a global temperature
   // request to all devices on the bus
  
   sensors.requestTemperatures(); // Send the command to get temperatures
@@ -95,6 +99,13 @@ void CurTemp()
   
 }
 
+void MainScreen()
+{
+    lcd.clear();
+    lcd.print("Current temp: ");
+    lcd.setCursor(5, 1);
+    lcd.print("C");
+}
 
 void loop(void)
 {
@@ -109,13 +120,27 @@ void loop(void)
     lcd.clear();
     lcd.print("Main menu");
     delay(2000);
-    lcd.clear();
-    lcd.print("Current temp: ");
-    lcd.setCursor(5, 1);
-    lcd.print("C");
+    MainScreen();
     CurTemp();
     
   }
+  else if (digitalRead(plusButton) == HIGH)
+  {
+    lcd.clear();
+    lcd.print("Test plus");
+    delay(2000);
+    MainScreen();
+    CurTemp();
+  }
+  else if (digitalRead(minusButton) == HIGH)
+  {
+    lcd.clear();
+    lcd.print("Test minus");
+    delay(2000);
+    MainScreen();
+    CurTemp();
+  }
+  
   
    
 }
