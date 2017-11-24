@@ -7,7 +7,7 @@ Arduino temperature in master shop project
 
 Используемые компоненты:  
 Контроллер - Arduino mini  
-Термометр аналоговый - DS18B20  
+Термометр цифровой  - DS18B20 
 
 
 Файлы:  
