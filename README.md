@@ -1,16 +1,12 @@
 # mastersop_temperature
-Arduino temperature in master shop project
 
-Проект на Arduino для поддержания заданной температуры в мастерской. 
-Схема включает реле 220 вольт, к которому будет подключен обогреватель.
-В дальнейшем планируется подключение солнечного коллектора, со вторым термометром внутри коллектора. Запуск принудительного забора воздуха с коллектора, по сигналу с солнечной батареи. 
+Arduino Temperature Control Project in Master Workshop. The scheme includes a 220V relay, which will be connected to a heater. Later, a solar collector is planned to be connected, with a second thermometer inside the collector. Forced air intake from the collector is started by a signal from the solar battery.
 
-Используемые компоненты:  
-Контроллер - Arduino mini  
-Термометр цифровой  - DS18B20 
+Components used:
+Controller - Arduino mini
+Digital thermometer - DS18B20
 
-
-Файлы:  
-mastersop_temperature.ino - скетч для Arduino  
-mastersop_temperature.ino - схема проекта, для cстемы атоматизированного проектирования Proteus  
-mastersop_temperature.ino.hex - файл прошивки для эммулятора Arduino в Proteus  
+Files:
+mastersop_temperature.ino - sketch for Arduino
+mastersop_temperature.ino - project schematic for automated design system Proteus
+mastersop_temperature.ino.hex - firmware file for Arduino emulator in Proteus.
